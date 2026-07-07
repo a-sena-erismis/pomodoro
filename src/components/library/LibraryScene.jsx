@@ -1,6 +1,5 @@
 import './LibraryScene.css';
 import Book from './Book';
-import LibraryCharacter from './LibraryCharacter';
 
 const SPINE_COLORS = [
   '#5c1a22',
@@ -13,28 +12,12 @@ const SPINE_COLORS = [
   '#8a6b2e',
 ];
 
-const DOOR = { x: 160, y: 116 };
-
 const BOOKS = [
   { x: 56, y: 30, variant: 0, delay: 0, duration: 18 },
   { x: 236, y: 24, variant: 1, delay: 3, duration: 16 },
   { x: 150, y: 46, variant: 2, delay: 6.5, duration: 20 },
   { x: 268, y: 58, variant: 3, delay: 1.5, duration: 17 },
 ];
-
-function getSeatPositions(count) {
-  if (count <= 1) return [{ x: 161, y: 152 }];
-  if (count === 2)
-    return [
-      { x: 140, y: 150 },
-      { x: 182, y: 150 },
-    ];
-  return [
-    { x: 122, y: 153 },
-    { x: 160, y: 148 },
-    { x: 200, y: 153 },
-  ];
-}
 
 function ShelfRow({ y, xStart, xEnd, seed }) {
   const rects = [];
@@ -67,9 +50,7 @@ function Bookshelf({ xStart, xEnd }) {
   );
 }
 
-function LibraryScene({ phase, cast, lighting }) {
-  const seats = getSeatPositions(cast.length);
-
+function LibraryScene({ phase, lighting }) {
   return (
     <div className="lib-scene" data-lighting={lighting} aria-hidden="true">
       <svg
@@ -83,10 +64,6 @@ function LibraryScene({ phase, cast, lighting }) {
             <stop offset="0%" stopColor="#ffdd8a" stopOpacity="0.9" />
             <stop offset="45%" stopColor="#ff9d3c" stopOpacity="0.35" />
             <stop offset="100%" stopColor="#ff9d3c" stopOpacity="0" />
-          </radialGradient>
-          <radialGradient id="deskGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#e8c168" stopOpacity="0.55" />
-            <stop offset="100%" stopColor="#e8c168" stopOpacity="0" />
           </radialGradient>
         </defs>
 
@@ -138,35 +115,6 @@ function LibraryScene({ phase, cast, lighting }) {
           <rect key={i} x={i * 20} y="118" width="1" height="62" fill="#120c06" opacity="0.6" />
         ))}
         <rect x="0" y="118" width="320" height="2" fill="#0c0805" />
-
-        {/* rug / desk light pool */}
-        <ellipse cx="161" cy="150" rx="70" ry="22" fill="url(#deskGlow)" className="lib-desk-glow" />
-
-        {/* chairs (drawn behind characters) */}
-        {seats.map((s, i) => (
-          <g key={i} transform={`translate(${s.x}, ${s.y})`}>
-            <rect x="-9" y="-16" width="4" height="16" fill="#4a3120" />
-            <rect x="5" y="-16" width="4" height="16" fill="#4a3120" />
-            <rect x="-10" y="-2" width="20" height="3" fill="#5c3d24" />
-          </g>
-        ))}
-
-        {/* desk */}
-        <g transform="translate(161, 140)">
-          <rect x="-38" y="-6" width="76" height="7" fill="#6b4a2e" />
-          <rect x="-38" y="-6" width="76" height="2" fill="#8a5f3a" />
-          <rect x="-34" y="1" width="4" height="16" fill="#4a3120" />
-          <rect x="30" y="1" width="4" height="16" fill="#4a3120" />
-          {/* candle */}
-          <rect x="-28" y="-11" width="3" height="5" fill="#e8dcc0" />
-          <rect x="-27" y="-14" width="1" height="3" fill="#ff9d3c" className="lib-flame lib-flame--d" />
-        </g>
-
-        {/* characters */}
-        {phase !== 'empty' &&
-          cast.map((type, i) => (
-            <LibraryCharacter key={i} type={type} seat={seats[i]} door={DOOR} phase={phase} index={i} />
-          ))}
 
         {/* flying books */}
         {BOOKS.map((b, i) => (

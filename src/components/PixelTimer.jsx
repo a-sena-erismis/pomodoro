@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import ModeTabs from './ModeTabs';
-import PixelCandle from './PixelCandle';
 
 const SEGMENT_COUNT = 20;
 
@@ -75,11 +74,6 @@ function PixelTimer({ timer, activeTaskLabel }) {
           ))}
         </div>
       )}
-
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 24, marginTop: 20 }}>
-        <PixelCandle />
-        <PixelCandle className="right" />
-      </div>
     </section>
   );
 }

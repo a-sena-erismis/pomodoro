@@ -5,6 +5,7 @@ import PixelTimer from './components/PixelTimer';
 import TaskList from './components/TaskList';
 import StatsPanel from './components/StatsPanel';
 import LibraryScene from './components/library/LibraryScene';
+import LibraryStage from './components/library/LibraryStage';
 import CastPicker from './components/library/CastPicker';
 import { useTimer } from './hooks/useTimer';
 import { useLocalStorage } from './hooks/useLocalStorage';
@@ -63,11 +64,7 @@ function App() {
 
   return (
     <div className="app">
-      <LibraryScene
-        phase={cast.phase}
-        cast={cast.cast}
-        lighting={timer.mode === 'focus' ? 'work' : 'break'}
-      />
+      <LibraryScene phase={cast.phase} lighting={timer.mode === 'focus' ? 'work' : 'break'} />
 
       <header className="header">
         <PixelCandle />
@@ -77,6 +74,12 @@ function App() {
         </div>
         <PixelCandle className="right" />
       </header>
+
+      <LibraryStage
+        phase={cast.phase}
+        cast={cast.cast}
+        lighting={timer.mode === 'focus' ? 'work' : 'break'}
+      />
 
       <div className="layout">
         <PixelTimer timer={timer} activeTaskLabel={activeTask?.text} />
