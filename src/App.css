@@ -146,8 +146,20 @@
 /* ---------- topbar ---------- */
 
 .topbar {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-left: clamp(20px, 6vw, 90px);
+}
+
+@media (max-width: 720px) {
+  .topbar {
+    justify-content: center;
+    padding-left: 0;
+  }
 }
 
 .panel-toggle-row {
@@ -228,7 +240,7 @@
 .timer-panel {
   text-align: center;
   width: 100%;
-  max-width: 460px;
+  max-width: 420px;
 }
 
 .timer-display {
