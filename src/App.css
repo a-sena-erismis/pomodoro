@@ -1,4 +1,6 @@
 .app {
+  position: relative;
+  z-index: 1;
   max-width: 960px;
   margin: 0 auto;
   padding: 28px 20px 60px;
@@ -453,6 +455,49 @@
 .week-label {
   font-size: 13px;
   color: var(--parchment-dim);
+}
+
+/* ---------- library cast picker ---------- */
+
+.cast-hint {
+  font-size: 15px;
+  color: var(--parchment-dim);
+  margin: 0 0 16px;
+}
+
+.cast-count-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.cast-count-btn {
+  flex: 1;
+  padding: 10px;
+}
+
+.cast-seats {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cast-seat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 15px;
+  color: var(--parchment-dim);
+}
+
+.cast-seat select {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  background: var(--ink);
+  color: var(--parchment);
+  border: 2px solid var(--gold);
+  padding: 6px 8px;
 }
 
 footer.credits {

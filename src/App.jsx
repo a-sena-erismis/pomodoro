@@ -4,8 +4,11 @@ import PixelCandle from './components/PixelCandle';
 import PixelTimer from './components/PixelTimer';
 import TaskList from './components/TaskList';
 import StatsPanel from './components/StatsPanel';
+import LibraryScene from './components/library/LibraryScene';
+import CastPicker from './components/library/CastPicker';
 import { useTimer } from './hooks/useTimer';
 import { useLocalStorage } from './hooks/useLocalStorage';
+import { useLibraryCast } from './hooks/useLibraryCast';
 import { playBell, playClick } from './utils/sound';
 import { todayKey } from './utils/date';
 
@@ -35,6 +38,7 @@ function App() {
   );
 
   const timer = useTimer({ onSessionComplete: handleSessionComplete });
+  const cast = useLibraryCast(timer.mode);
 
   const activeTask = tasks.find((t) => t.id === activeTaskId && !t.done);
 
@@ -59,6 +63,12 @@ function App() {
 
   return (
     <div className="app">
+      <LibraryScene
+        phase={cast.phase}
+        cast={cast.cast}
+        lighting={timer.mode === 'focus' ? 'work' : 'break'}
+      />
+
       <header className="header">
         <PixelCandle />
         <div>
@@ -79,6 +89,12 @@ function App() {
             onRemove={removeTask}
             activeTaskId={activeTaskId}
             onSelect={selectTask}
+          />
+          <CastPicker
+            seatCount={cast.seatCount}
+            setSeatCount={cast.setSeatCount}
+            seatTypes={cast.seatTypes}
+            setSeatType={cast.setSeatType}
           />
           <StatsPanel stats={stats} />
         </div>

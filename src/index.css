@@ -30,17 +30,12 @@ body,
 body {
   margin: 0;
   color: var(--parchment);
-  background:
-    radial-gradient(ellipse 60% 40% at 20% 15%, rgba(201, 162, 39, 0.1) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 80% 85%, rgba(122, 31, 43, 0.18) 0%, transparent 60%),
-    repeating-linear-gradient(
-      90deg,
-      var(--stone) 0px,
-      var(--stone) 38px,
-      var(--stone-light) 38px,
-      var(--stone-light) 40px
-    ),
-    var(--void);
+  background: var(--void);
+}
+
+#root {
+  position: relative;
+  z-index: 1;
 }
 
 button {
