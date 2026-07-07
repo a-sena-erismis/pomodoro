@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import ModeTabs from './ModeTabs';
 
 const SEGMENT_COUNT = 20;
@@ -13,8 +12,7 @@ function formatTime(totalSeconds) {
   return `${minutes}:${seconds}`;
 }
 
-function PixelTimer({ timer, activeTaskLabel }) {
-  const [showSettings, setShowSettings] = useState(false);
+function PixelTimer({ timer, activeTaskLabel, onOpenPanel }) {
   const filledSegments = Math.round(timer.progress * SEGMENT_COUNT);
   const mod = timer.completedFocusSessions % 4;
   const sessionsFilled = mod === 0 && timer.completedFocusSessions > 0 ? 4 : mod;
@@ -42,13 +40,6 @@ function PixelTimer({ timer, activeTaskLabel }) {
         <button type="button" className="pixel-btn ghost" onClick={timer.reset}>
           Sıfırla
         </button>
-        <button
-          type="button"
-          className="pixel-btn ghost"
-          onClick={() => setShowSettings((v) => !v)}
-        >
-          Ayarlar
-        </button>
       </div>
 
       <div className="session-count">Tamamlanan Ayin: {timer.completedFocusSessions}</div>
@@ -58,22 +49,20 @@ function PixelTimer({ timer, activeTaskLabel }) {
         ))}
       </div>
 
-      {showSettings && (
-        <div className="settings-grid">
-          {Object.entries(timer.modes).map(([key, config]) => (
-            <label key={key} className="settings-field">
-              {config.label} (dk)
-              <input
-                type="number"
-                min="1"
-                max="180"
-                value={timer.durations[key] / 60}
-                onChange={(e) => timer.updateDuration(key, Number(e.target.value) || 1)}
-              />
-            </label>
-          ))}
-        </div>
-      )}
+      <div className="panel-toggle-row">
+        <button type="button" className="pixel-btn ghost" onClick={() => onOpenPanel('tasks')}>
+          📖 Görevler
+        </button>
+        <button type="button" className="pixel-btn ghost" onClick={() => onOpenPanel('cast')}>
+          🎭 Sakinler
+        </button>
+        <button type="button" className="pixel-btn ghost" onClick={() => onOpenPanel('stats')}>
+          📊 Kayıtlar
+        </button>
+        <button type="button" className="pixel-btn ghost" onClick={() => onOpenPanel('settings')}>
+          ⚙ Ayarlar
+        </button>
+      </div>
     </section>
   );
 }

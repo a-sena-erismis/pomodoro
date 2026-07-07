@@ -13,36 +13,6 @@
   display: block;
 }
 
-/* ---------- in-flow stage (desk, chairs, characters) ---------- */
-
-.lib-stage {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  max-width: 960px;
-  margin: 0 auto 22px;
-  border-radius: 4px;
-  overflow: hidden;
-  box-shadow: 0 6px 20px var(--shadow);
-  transition: filter 1.3s ease;
-}
-
-.lib-stage[data-lighting='break'] {
-  filter: brightness(0.55) saturate(0.7);
-}
-
-.lib-stage-svg {
-  display: block;
-  width: 100%;
-  height: 160px;
-}
-
-@media (max-width: 480px) {
-  .lib-stage-svg {
-    height: 130px;
-  }
-}
-
 /* ---------- lighting moods ---------- */
 
 .lib-lamp-glow,

@@ -4,8 +4,9 @@ import PixelCandle from './components/PixelCandle';
 import PixelTimer from './components/PixelTimer';
 import TaskList from './components/TaskList';
 import StatsPanel from './components/StatsPanel';
+import TimerSettings from './components/TimerSettings';
+import Modal from './components/Modal';
 import LibraryScene from './components/library/LibraryScene';
-import LibraryStage from './components/library/LibraryStage';
 import CastPicker from './components/library/CastPicker';
 import { useTimer } from './hooks/useTimer';
 import { useLocalStorage } from './hooks/useLocalStorage';
@@ -17,6 +18,7 @@ function App() {
   const [tasks, setTasks] = useLocalStorage('rk-tasks', []);
   const [activeTaskId, setActiveTaskId] = useLocalStorage('rk-active-task', null);
   const [stats, setStats] = useLocalStorage('rk-stats', { byDate: {}, totalFocusMinutes: 0 });
+  const [openPanel, setOpenPanel] = useState(null);
 
   const handleSessionComplete = useCallback(
     ({ mode, minutes }) => {
@@ -64,7 +66,11 @@ function App() {
 
   return (
     <div className="app">
-      <LibraryScene phase={cast.phase} lighting={timer.mode === 'focus' ? 'work' : 'break'} />
+      <LibraryScene
+        phase={cast.phase}
+        cast={cast.cast}
+        lighting={timer.mode === 'focus' ? 'work' : 'break'}
+      />
 
       <header className="header">
         <PixelCandle />
@@ -75,16 +81,16 @@ function App() {
         <PixelCandle className="right" />
       </header>
 
-      <LibraryStage
-        phase={cast.phase}
-        cast={cast.cast}
-        lighting={timer.mode === 'focus' ? 'work' : 'break'}
-      />
+      <div className="topbar">
+        <PixelTimer
+          timer={timer}
+          activeTaskLabel={activeTask?.text}
+          onOpenPanel={setOpenPanel}
+        />
+      </div>
 
-      <div className="layout">
-        <PixelTimer timer={timer} activeTaskLabel={activeTask?.text} />
-
-        <div className="side-stack">
+      {openPanel === 'tasks' && (
+        <Modal onClose={() => setOpenPanel(null)}>
           <TaskList
             tasks={tasks}
             onAdd={addTask}
@@ -93,15 +99,31 @@ function App() {
             activeTaskId={activeTaskId}
             onSelect={selectTask}
           />
+        </Modal>
+      )}
+
+      {openPanel === 'cast' && (
+        <Modal onClose={() => setOpenPanel(null)}>
           <CastPicker
             seatCount={cast.seatCount}
             setSeatCount={cast.setSeatCount}
             seatTypes={cast.seatTypes}
             setSeatType={cast.setSeatType}
           />
+        </Modal>
+      )}
+
+      {openPanel === 'stats' && (
+        <Modal onClose={() => setOpenPanel(null)}>
           <StatsPanel stats={stats} />
-        </div>
-      </div>
+        </Modal>
+      )}
+
+      {openPanel === 'settings' && (
+        <Modal onClose={() => setOpenPanel(null)}>
+          <TimerSettings timer={timer} />
+        </Modal>
+      )}
 
       <footer className="credits">✦ Four Wings — Rahiplerin Kütüphanesi ✦</footer>
     </div>
